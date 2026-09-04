@@ -11,18 +11,19 @@ const { successResponse, errorResponse } = require("../utils/response");
  */
 async function login(req, res, next) {
   try {
-    const { email, password } = req.body;
+    const { email, identifier, username, nisn, password } = req.body;
+    const loginIdentifier = (identifier || email || username || nisn || "").trim();
 
-    if (!email || !password) {
+    if (!loginIdentifier || !password) {
       return errorResponse(
         res,
-        "Email dan password wajib diisi.",
+        "Email / NISN dan password wajib diisi.",
         "VALIDATION_ERROR",
         400
       );
     }
 
-    const result = await authService.loginUser(email.trim(), password);
+    const result = await authService.loginUser(loginIdentifier, password);
 
     return successResponse(res, "Login berhasil.", result, 200);
   } catch (error) {

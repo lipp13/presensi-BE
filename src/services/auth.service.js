@@ -5,11 +5,11 @@ const { supabase, supabaseAdmin } = require("../config/supabase");
  */
 
 /**
- * Login pengguna dengan email & password
- * @param {string} email 
+ * Login pengguna dengan Email atau NISN & password
+ * @param {string} identifier - Bisa berupa Email atau NISN
  * @param {string} password 
  */
-async function loginUser(email, password) {
+async function loginUser(identifier, password) {
   if (!supabase) {
     throw {
       statusCode: 500,
@@ -18,9 +18,39 @@ async function loginUser(email, password) {
     };
   }
 
+  const cleanIdentifier = String(identifier || "").trim();
+  let emailToAuth = cleanIdentifier;
+
+  // Jika input bukan email (tidak ada tanda '@'), lakukan lookup NISN ke tabel profiles
+  if (!cleanIdentifier.includes("@")) {
+    if (!supabaseAdmin) {
+      throw {
+        statusCode: 500,
+        code: "SUPABASE_NOT_CONFIGURED",
+        message: "Koneksi Supabase Admin belum dikonfigurasi untuk pencarian NISN",
+      };
+    }
+
+    const { data: profileByNisn, error: nisnError } = await supabaseAdmin
+      .from("profiles")
+      .select("email, full_name, nisn")
+      .eq("nisn", cleanIdentifier)
+      .maybeSingle();
+
+    if (nisnError || !profileByNisn || !profileByNisn.email) {
+      throw {
+        statusCode: 401,
+        code: "INVALID_CREDENTIALS",
+        message: `Akun dengan NISN '${cleanIdentifier}' tidak ditemukan dalam sistem.`,
+      };
+    }
+
+    emailToAuth = profileByNisn.email;
+  }
+
   // 1. Autentikasi kredensial ke Supabase Auth
   const { data, error } = await supabase.auth.signInWithPassword({
-    email,
+    email: emailToAuth,
     password,
   });
 
@@ -28,7 +58,9 @@ async function loginUser(email, password) {
     throw {
       statusCode: 401,
       code: "INVALID_CREDENTIALS",
-      message: "Email atau password yang Anda masukkan salah",
+      message: cleanIdentifier.includes("@")
+        ? "Email atau password yang Anda masukkan salah"
+        : "Password yang Anda masukkan salah untuk NISN tersebut",
       details: error.message,
     };
   }

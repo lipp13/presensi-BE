@@ -22,6 +22,9 @@ CREATE TABLE IF NOT EXISTS public.profiles (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );
 
+-- Index unik untuk NISN siswa (NISN hanya unik untuk siswa, admin bisa NULL tanpa konflik)
+CREATE UNIQUE INDEX IF NOT EXISTS idx_profiles_nisn_unique ON public.profiles(nisn) WHERE nisn IS NOT NULL;
+
 -- ==============================================================================
 -- 3. TABEL LOCATIONS (Titik Lokasi Kantor / Balai SDA yang Diizinkan)
 -- ==============================================================================
