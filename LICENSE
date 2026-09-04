@@ -1,5 +1,5 @@
-PROPRIETARY AND INTELLECTUAL PROPERTY LICENSE
-HAK CIPTA DAN KETENTUAN KEPEMILIKAN SUMBER KODE
+SOFTWARE ATTRIBUTION LICENSE
+KETENTUAN PENGGUNAAN & PEMBERIAN ATRIBUSI KODE SUMBER
 
 Hak Cipta (c) 2026:
 - Alif Alfathar
@@ -8,53 +8,41 @@ Hak Cipta (c) 2026:
 Siswa SMK Taruna Bhakti — Proyek Praktik Kerja Lapangan (PKL)
 di Direktorat Bina Teknik Sumber Daya Air (Kementerian PUPR)
 
-SELURUH HAK DILINDUNGI UNDANG-UNDANG (ALL RIGHTS RESERVED).
+================================================================================
+1. IZIN PENGGUNAAN & KLONING (PERMISSION TO CLONE & USE)
+================================================================================
+Dengan ini, izin diberikan secara bebas kepada siapa saja yang memperoleh salinan 
+dari repositori dan berkas kode sumber ini untuk:
+a. Melakukan kloning (git clone), mengunduh, membaca, dan mempelajari seluruh kode sumber.
+b. Menjalankan, menguji, dan menggunakan backend ini secara lokal untuk keperluan 
+   pembelajaran, edukasi, referensi, atau pengembangan lebih lanjut.
+c. Mengintegrasikan endpoint backend ini dengan antarmuka frontend untuk keperluan 
+   pengembangan aplikasi presensi.
 
 ================================================================================
-1. PERNYATAAN ORISINALITAS KARYA (ORIGINALITY DECLARATION)
+2. PERSYARATAN WAJIB ATRIBUSI (MANDATORY ATTRIBUTION CONDITIONS)
 ================================================================================
-Seluruh kode sumber (source code), struktur arsitektur sistem, skema basis data 
-(database schema), formula geofencing geospasial, integrasi bot logger, tata letak 
-ekspor laporan, dan dokumentasi teknis di dalam repositori ini merupakan hasil karya 
-orisinal murni yang dirancang, dirumuskan, dan diimplementasikan secara bersama-sama 
-oleh Tim Pengembang Backend (3 Orang):
-  1. Alif Alfathar          (Lead Developer & Backend Architect)
-  2. Denis Ali Fadilah      (Backend Engineer & Quality Assurance)
-  3. Rega Syakib Ramadhan   (Backend Engineer & Database Architect)
+Izin di atas diberikan dengan ketentuan dan SYARAT MUTLAK sebagai berikut:
 
-Karya ini dibangun secara mandiri tanpa melakukan penjiplakan, pencurian kode, 
-atau plagiarisme terhadap karya pihak manapun.
+a. WAJIB MENCANTUMKAN LISENSI & KREDIT ASLI:
+   Setiap salinan, kloningan, fork, maupun bagian substansial dari kode sumber ini 
+   WAJIB tetap menyertakan pemberitahuan hak cipta di atas dan teks berkas LICENSE 
+   ini secara utuh tanpa diubah.
 
-================================================================================
-2. LARANGAN PENGGUNAAN TANPA IZIN (RESTRICTIONS & NON-DISTRIBUTION)
-================================================================================
-Dengan mengakses, melihat, atau mengunduh repositori ini, Anda tunduk pada batasan-
-batasan berikut:
+b. DILARANG MENGAKU-AKU KEPEMILIKAN (ANTI-PLAGIARISME):
+   Pengguna DILARANG KERAS menghapus, memodifikasi, atau menyamarkan nama pemegang 
+   hak cipta asli (Alif Alfathar, Denis Ali Fadilah, Rega Syakib Ramadhan), serta 
+   dilarang mengklaim atau mempublikasikan ulang karya ini seolah-olah dibuat secara 
+   mandiri dari nol oleh pihak lain.
 
-a. DILARANG KERAS melakukan kloning (clone), penyalinan (copy-paste), duplikasi, 
-   atau forking kode sumber ini untuk keperluan mengklaim hasil karya (plagiarisme) 
-   sebagai tugas mandiri, tugas akhir, portofolio, atau proyek pihak lain.
-b. DILARANG KERAS memperjualbelikan, melisensikan ulang (sub-license), menyewakan, 
-   atau mengomersialisasikan sebagian maupun seluruh isi repositori ini tanpa izin 
-   tertulis resmi dari ketiga pemegang hak cipta di atas.
-c. DILARANG KERAS menghapus, mengubah, atau menyamarkan atribusi nama pencipta, 
-   tanda hak cipta, atau lisensi ini dari berkas kode sumber.
+c. PENGGUNAAN NON-KOMERSIAL (NON-COMMERCIAL):
+   Kode sumber ini tidak boleh diperjualbelikan, disewakan, atau dikomersialisasikan 
+   secara langsung tanpa persetujuan tertulis resmi dari para pencipta asli.
 
 ================================================================================
-3. CAKUPAN PENGGUNAAN YANG DIIZINKAN (PERMITTED USE)
+3. PENAFIAN TANGGUNG JAWAB (DISCLAIMER)
 ================================================================================
-Penggunaan kode sumber ini HANYA diizinkan secara terbatas dan eksklusif untuk:
-a. Pelaksanaan, evaluasi, dan penilaian Praktik Kerja Lapangan (PKL) SMK Taruna 
-   Bhakti pada Direktorat Bina Teknik Sumber Daya Air (Kementerian PUPR).
-b. Pengujian dan integrasi internal bersama tim frontend resmi proyek ini.
-c. Keperluan peninjauan akademis oleh guru pembimbing sekolah dan mentor instansi.
-
-================================================================================
-4. KONSEKUENSI HUKUM DAN AKADEMIK (LEGAL & ACADEMIC REMEDIES)
-================================================================================
-Segala bentuk pelanggaran terhadap hak cipta ini, baik sebagian maupun menyeluruh, 
-akan dilaporkan kepada pihak berwenang di SMK Taruna Bhakti sebagai pelanggaran 
-integritas akademik berat (plagiarisme), serta dapat dituntut sesuai ketentuan 
-Undang-Undang Republik Indonesia Nomor 28 Tahun 2014 tentang Hak Cipta.
-
-Untuk pertanyaan, izin penggunaan, atau verifikasi lisensi, silakan hubungi tim pengembang.
+PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA" ("AS IS"), TANPA JAMINAN DALAM 
+BENTUK APA PUN, BAIK TERSURAT MAUPUN TERSIRAT. DALAM KEADAAN APA PUN, PARA PENCIPTA 
+ATAU PEMEGANG HAK CIPTA TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN, ATAU TUNTUTAN 
+LAINNYA YANG TIMBUL DARI PENGGUNAAN PERANGKAT LUNAK INI.

@@ -314,10 +314,8 @@ Proyek ini dirancang dan diselesaikan dalam jangka waktu **2 Minggu (14 Hari Kal
 
 ---
 
-## 📄 Lisensi & Hak Cipta (Proprietary License)
+## 📄 Lisensi & Hak Cipta (Software Attribution License)
 
 Hak Cipta © 2026 **Alif Alfathar, Denis Ali Fadilah, Rega Syakib Ramadhan** — Siswa SMK Taruna Bhakti (Proyek PKL di Direktorat Bina Teknik Sumber Daya Air).
 
-*Seluruh hak cipta dilindungi undang-undang (All Rights Reserved).*
-
-Proyek ini merupakan **karya orisinal murni** yang dirancang dan dibangun bersama oleh tim 3 orang pengembang dan berstatus **Closed-Source / Proprietary**. Dilarang keras mengkloning, menyalin (*copy-paste*), memodifikasi, mempublikasikan ulang, atau mengklaim kepemilikan kode sumber ini tanpa izin tertulis resmi dari para pencipta. Ketentuan hukum dan hak cipta selengkapnya dapat dibaca pada berkas [LICENSE](./LICENSE).
+Repositori ini bebas di-**clone**, diunduh, dan dipelajari untuk keperluan edukasi dan referensi dengan **syarat mutlak** wajib tetap menyertakan berkas [LICENSE](./LICENSE) serta mencantumkan kredit kepada ketiga pencipta asli (dilarang menghapus atribusi atau mengklaim sepihak hasil karya). Rincian ketentuan lisensi selengkapnya dapat dibaca pada berkas [LICENSE](./LICENSE).
