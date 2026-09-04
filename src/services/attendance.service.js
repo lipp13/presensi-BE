@@ -247,9 +247,9 @@ async function checkOut(userId, payload) {
 /**
  * Mengambil riwayat presensi milik siswa yang login
  * @param {string} userId 
- * @param {number} limit 
+ * @param {object|number} options - { limit, start_date, end_date } atau limit angka
  */
-async function getAttendanceHistory(userId, limit = 30) {
+async function getAttendanceHistory(userId, options = {}) {
   if (!supabaseAdmin) {
     throw {
       statusCode: 500,
@@ -258,12 +258,27 @@ async function getAttendanceHistory(userId, limit = 30) {
     };
   }
 
-  const { data, error } = await supabaseAdmin
+  const filterOpts = typeof options === "object" ? options : { limit: options };
+  const limit = Math.min(parseInt(filterOpts.limit, 10) || 30, 100);
+
+  let query = supabaseAdmin
     .from("attendance")
     .select("*, locations(name)")
-    .eq("user_id", userId)
+    .eq("user_id", userId);
+
+  if (filterOpts.start_date) {
+    query = query.gte("attendance_date", filterOpts.start_date);
+  }
+  if (filterOpts.end_date) {
+    query = query.lte("attendance_date", filterOpts.end_date);
+  }
+
+  query = query
     .order("attendance_date", { ascending: false })
+    .order("check_in_time", { ascending: false })
     .limit(limit);
+
+  const { data, error } = await query;
 
   if (error) {
     throw {

@@ -59,8 +59,7 @@ async function getToday(req, res, next) {
  */
 async function getHistory(req, res, next) {
   try {
-    const limit = parseInt(req.query.limit, 10) || 30;
-    const history = await attendanceService.getAttendanceHistory(req.user.id, limit);
+    const history = await attendanceService.getAttendanceHistory(req.user.id, req.query);
     return successResponse(res, "Riwayat presensi berhasil dimuat.", {
       total: history.length,
       attendance: history,
