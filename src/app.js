@@ -42,18 +42,23 @@ app.get("/", (req, res) => {
   });
 });
 
-// Health check endpoint (memeriksa server dan koneksi Supabase)
+// Health check endpoint (memeriksa server, lingkungan, dan koneksi Supabase & Telegram)
 app.get("/api/health", async (req, res, next) => {
   try {
     const supabaseStatus = await testConnection();
 
     return successResponse(res, "Status sistem backend", {
       status: "OK",
+      version: "1.0.0",
+      environment: process.env.NODE_ENV || "development",
       uptime_seconds: Math.floor(process.uptime()),
       server_time: new Date().toISOString(),
       supabase: {
         is_configured: isConfigured,
         ...supabaseStatus,
+      },
+      telegram: {
+        is_configured: telegramService.isTelegramConfigured(),
       },
     });
   } catch (error) {

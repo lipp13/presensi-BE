@@ -131,8 +131,13 @@ async function testTelegramConnection() {
   };
 }
 
+function isTelegramConfigured() {
+  return Boolean(process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID);
+}
+
 module.exports = {
   sendMessage,
   sendAttendanceLog,
   testTelegramConnection,
+  isTelegramConfigured,
 };
