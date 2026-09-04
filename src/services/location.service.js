@@ -85,8 +85,28 @@ async function validateGpsAndRadius(latitude, longitude, accuracy) {
     };
   }
 
-  // 1. Validasi Toleransi Akurasi GPS
+  // Validasi rentang koordinat geografis bumi
+  if (parsedLat < -90 || parsedLat > 90 || parsedLng < -180 || parsedLng > 180) {
+    throw {
+      statusCode: 400,
+      code: "COORDINATES_OUT_OF_RANGE",
+      message: "Koordinat latitude harus antara -90 dan 90, dan longitude antara -180 dan 180.",
+    };
+  }
+
+  // 1. Validasi Toleransi Akurasi GPS & Deteksi Anomali Fake GPS
   const maxAccuracy = parseInt(process.env.MAX_GPS_ACCURACY_METERS, 10) || 50;
+
+  // Akurasi <= 0 merupakan anomali umum dari generator Fake GPS
+  if (!isNaN(parsedAccuracy) && parsedAccuracy <= 0) {
+    throw {
+      statusCode: 400,
+      code: "SUSPECTED_FAKE_GPS",
+      message: "Nilai akurasi GPS tidak valid atau terindikasi penggunaan mock location/Fake GPS.",
+      details: { accuracy: parsedAccuracy },
+    };
+  }
+
   if (!isNaN(parsedAccuracy) && parsedAccuracy > maxAccuracy) {
     throw {
       statusCode: 400,
