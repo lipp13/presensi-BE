@@ -39,6 +39,10 @@ app.get("/api/health", async (req, res, next) => {
   }
 });
 
+// API Routes
+const authRoutes = require("./routes/auth.routes");
+app.use("/api/auth", authRoutes);
+
 // 404 Not Found Middleware
 app.use(notFoundHandler);
 
