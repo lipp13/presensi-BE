@@ -202,6 +202,24 @@ async function createStudent(studentData) {
     };
   }
 
+  // Pre-check apakah NISN sudah digunakan oleh siswa lain
+  if (nisn) {
+    const cleanNisn = String(nisn).trim();
+    const { data: existingStudent } = await supabaseAdmin
+      .from("profiles")
+      .select("id, full_name")
+      .eq("nisn", cleanNisn)
+      .maybeSingle();
+
+    if (existingStudent) {
+      throw {
+        statusCode: 409,
+        code: "NISN_ALREADY_EXISTS",
+        message: `NISN '${cleanNisn}' sudah terdaftar atas nama siswa: ${existingStudent.full_name}.`,
+      };
+    }
+  }
+
   // 1. Buat user di Supabase Auth
   const { data: authUser, error: authError } = await supabaseAdmin.auth.admin.createUser({
     email: email.trim(),
