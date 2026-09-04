@@ -8,5 +8,5 @@ export async function getUsers(req, res) {
         message : "success",
         data    : users,
         ok      : true
-    });
+    }); 
 }
