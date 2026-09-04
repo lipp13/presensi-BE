@@ -99,7 +99,40 @@ async function sendAttendanceLog({
   return await sendMessage(message);
 }
 
+/**
+ * Menguji koneksi bot Telegram dan mengirim pesan uji coba
+ */
+async function testTelegramConnection() {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+
+  if (!token || !chatId) {
+    return {
+      success: false,
+      message: "TELEGRAM_BOT_TOKEN atau TELEGRAM_CHAT_ID belum diisi di file .env",
+    };
+  }
+
+  const testMessage = `🤖 <b>TEST KONEKSI TELEGRAM BOT PRENSENSI PKL</b>\n\n✅ <i>Koneksi Berhasil!</i>\nBackend Presensi Siswa PKL SMK Taruna Bhakti di Direktorat Bina Teknik Sumber Daya Air siap mengirimkan log real-time ke chat ini.`;
+
+  const result = await sendMessage(testMessage);
+  if (result && result.ok) {
+    return {
+      success: true,
+      message: "Pesan uji coba berhasil terkirim ke Telegram Anda!",
+      data: result.result,
+    };
+  }
+
+  return {
+    success: false,
+    message: result?.description || "Gagal mengirim pesan ke Telegram. Pastikan Anda sudah klik START pada bot di Telegram.",
+    details: result,
+  };
+}
+
 module.exports = {
   sendMessage,
   sendAttendanceLog,
+  testTelegramConnection,
 };

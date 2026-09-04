@@ -61,6 +61,17 @@ app.get("/api/health", async (req, res, next) => {
   }
 });
 
+// Endpoint untuk mengetes apakah Bot Telegram bisa mengirim pesan
+const telegramService = require("./services/telegram.service");
+app.get("/api/health/telegram", async (req, res) => {
+  const result = await telegramService.testTelegramConnection();
+  if (result.success) {
+    return successResponse(res, result.message, result.data || {});
+  } else {
+    return errorResponse(res, result.message, "TELEGRAM_TEST_FAILED", 400, result.details);
+  }
+});
+
 // API Routes
 const authRoutes = require("./routes/auth.routes");
 const attendanceRoutes = require("./routes/attendance.routes");
