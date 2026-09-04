@@ -39,7 +39,7 @@ async function login(req, res, next) {
  */
 async function forgotPassword(req, res, next) {
   try {
-    const { email } = req.body;
+    const { email, redirect_to } = req.body;
 
     if (!email) {
       return errorResponse(
@@ -50,7 +50,7 @@ async function forgotPassword(req, res, next) {
       );
     }
 
-    const result = await authService.sendPasswordResetEmail(email.trim());
+    const result = await authService.sendPasswordResetEmail(email.trim(), redirect_to);
 
     return successResponse(res, result.message, { email }, 200);
   } catch (error) {

@@ -68,7 +68,7 @@ async function loginUser(email, password) {
  * Mengirim email instruksi reset password
  * @param {string} email 
  */
-async function sendPasswordResetEmail(email) {
+async function sendPasswordResetEmail(email, redirectUrl = null) {
   if (!supabase) {
     throw {
       statusCode: 500,
@@ -77,7 +77,10 @@ async function sendPasswordResetEmail(email) {
     };
   }
 
-  const { error } = await supabase.auth.resetPasswordForEmail(email);
+  const redirectTo = redirectUrl || process.env.FRONTEND_RESET_URL || process.env.FRONTEND_URL || undefined;
+  const options = redirectTo ? { redirectTo } : undefined;
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, options);
 
   if (error) {
     throw {
