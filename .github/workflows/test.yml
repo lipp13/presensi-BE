@@ -1,0 +1,39 @@
+name: Automated Backend API Tests
+
+on:
+  push:
+    branches:
+      - main
+      - alif
+  pull_request:
+    branches:
+      - main
+      - alif
+
+jobs:
+  test:
+    name: Run Unit & Integration Test Suite
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install Dependencies
+        working-directory: backend
+        run: npm ci || npm install
+
+      - name: Execute Automated Test Suite (15 Tests)
+        working-directory: backend
+        run: npm test
