@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { successResponse } = require("./utils/response");
+const { successResponse, errorResponse } = require("./utils/response");
 const { notFoundHandler, errorHandler } = require("./middlewares/error.middleware");
 const { testConnection, isConfigured } = require("./config/supabase");
 
