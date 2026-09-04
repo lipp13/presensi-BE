@@ -8,11 +8,12 @@ Selamat datang di repositori Backend Sistem Presensi PKL SMK Taruna Bhakti! Doku
 
 Kami menggunakan alur branch terstruktur:
 * `main` : Branch produksi stabil dan siap deployment.
-* `alif` : Branch fitur utama pengembang backend lead (Alif Alfathar).
-* `feature/<nama-fitur>` : Branch eksplorasi untuk fitur baru sebelum digabung ke branch utama.
+* `alif` : Branch developer pengembang backend (Alif Alfathar).
+* `dennis` : Branch developer pengembang backend (Dennis Ali).
+* `rega` : Branch developer pengembang backend (Rega Syakib).
 
 ### Alur Kerja Harian:
-1. Pastikan selalu melakukan `git pull origin alif` sebelum memulai pekerjaan.
+1. Pastikan selalu melakukan `git pull origin (nama branch)` sebelum memulai pekerjaan.
 2. Kerjakan tugas sesuai modul pada dokumen WBS.
 3. Jalankan automated test:
    ```bash
@@ -57,7 +58,7 @@ Sebelum push ke GitHub:
 
 ---
 
-## 👥 4. Tim Pengembang
+## 👥 4. Tim Pengembang Backend
 * **Alif Alfathar** — Lead Developer & Backend Architect
 * **Rega Syakib** — Backend & Database Engineer
 * **Denis Ali** — Backend & QA Engineer
