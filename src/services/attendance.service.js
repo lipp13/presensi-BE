@@ -1,6 +1,7 @@
 const { supabaseAdmin } = require("../config/supabase");
 const locationService = require("./location.service");
 const storageService = require("./storage.service");
+const telegramService = require("./telegram.service");
 
 /**
  * Service untuk menangani logika bisnis pencatatan presensi siswa PKL
@@ -139,6 +140,29 @@ async function checkIn(userId, payload) {
     };
   }
 
+  // 5. Kirim notifikasi log ke Telegram Bot (Asynchronous / Non-blocking)
+  (async () => {
+    try {
+      const { data: profile } = await supabaseAdmin
+        .from("profiles")
+        .select("full_name, nisn, school, major")
+        .eq("id", userId)
+        .maybeSingle();
+
+      await telegramService.sendAttendanceLog({
+        student: profile || {},
+        type: "CHECK_IN",
+        time: createdAttendance.check_in_time,
+        distance: createdAttendance.check_in_distance,
+        accuracy: createdAttendance.check_in_accuracy,
+        locationName: validation.location?.name,
+        photoUrl: finalPhotoPath,
+      });
+    } catch (err) {
+      console.warn("[TELEGRAM LOG WARNING]", err.message);
+    }
+  })();
+
   return createdAttendance;
 }
 
@@ -240,6 +264,29 @@ async function checkOut(userId, payload) {
       details: updateError.message,
     };
   }
+
+  // 5. Kirim notifikasi log ke Telegram Bot (Asynchronous / Non-blocking)
+  (async () => {
+    try {
+      const { data: profile } = await supabaseAdmin
+        .from("profiles")
+        .select("full_name, nisn, school, major")
+        .eq("id", userId)
+        .maybeSingle();
+
+      await telegramService.sendAttendanceLog({
+        student: profile || {},
+        type: "CHECK_OUT",
+        time: updatedAttendance.check_out_time,
+        distance: updatedAttendance.check_out_distance,
+        accuracy: updatedAttendance.check_out_accuracy,
+        locationName: validation.location?.name,
+        photoUrl: finalPhotoPath,
+      });
+    } catch (err) {
+      console.warn("[TELEGRAM LOG WARNING]", err.message);
+    }
+  })();
 
   return updatedAttendance;
 }

@@ -1,0 +1,132 @@
+================================================================================
+LAPORAN FITUR BACKEND - APLIKASI PRESENSI ONLINE SISWA PKL
+SMK TARUNA BHAKTI DI DIREKTORAT BINA TEKNIK SUMBER DAYA AIR
+Tanggal Pengembangan : 04 September 2026
+Branch Repository    : alif (https://github.com/lipp13/presensi-BE)
+Teknologi            : Node.js, Express.js, Supabase (PostgreSQL, Auth, Storage), ExcelJS
+================================================================================
+
+1. RINGKASAN CAPAIAN HARI INI
+--------------------------------------------------------------------------------
+Seluruh modul backend dari Phase 1 hingga Phase 12 telah selesai 100%.
+Total 14 Automated Test LULUS (npm test) dan kode telah ter-push ke branch 'alif'.
+
+Fitur mencakup:
+- Autentikasi lengkap (Login, Lupa Password, Ubah Password, Profil).
+- Rekam presensi masuk (Check-in) & pulang (Check-out) dengan foto selfie & GPS.
+- Validasi geospasial (Haversine Formula) & anti-cheat akurasi GPS.
+- Riwayat kehadiran siswa dengan filter tanggal.
+- Dashboard admin (Monitoring hari ini, seluruh riwayat, pendaftaran siswa).
+- Ekspor rekapitulasi data presensi ke format Excel (.xlsx).
+- Keamanan (Security headers, CORS dinamis, proteksi Service Role Key).
+- Kesiapan deployment ke Vercel (Serverless ready).
+
+
+2. DAFTAR FITUR & ENDPOINT API
+--------------------------------------------------------------------------------
+
+A. MODUL SISTEM & HEALTH CHECK
+   - GET /
+     * Menampilkan status API root dan versi aplikasi.
+   - GET /api/health
+     * Memeriksa kondisi server, uptime, dan status koneksi ke Supabase.
+
+B. MODUL AUTENTIKASI & PENGGUNA (/api/auth)
+   - POST /api/auth/login
+     * Login siswa dan admin menggunakan email & password.
+     * Mengembalikan JWT token dan profil lengkap (nama, NISN, sekolah, jurusan, role).
+   - POST /api/auth/forgot-password
+     * Fitur lupa password: Mengirim tautan instruksi reset ke email pengguna.
+   - POST /api/auth/reset-password
+     * Menyimpan password baru menggunakan token verifikasi dari email.
+   - POST /api/auth/change-password
+     * Fitur ubah password saat login: Wajib verifikasi password lama sebelum mengganti password baru.
+   - GET /api/auth/me
+     * Mengambil data profil pengguna yang sedang login.
+
+C. MODUL PRESENSI SISWA (/api/attendance)
+   *Semua endpoint wajib menggunakan Header: Authorization: Bearer <token_siswa>*
+   
+   - POST /api/attendance/check-in
+     * Merekam presensi masuk (jam, tanggal server, latitude, longitude, accuracy, foto selfie).
+     * Validasi anti-duplikasi: Menolak jika sudah pernah check-in hari ini.
+   - POST /api/attendance/check-out
+     * Merekam presensi pulang pada baris absensi hari yang sama.
+     * Menolak jika belum check-in atau sudah pernah check-out.
+   - GET /api/attendance/today
+     * Mengecek status kehadiran hari ini (membantu frontend menentukan status tombol).
+   - GET /api/attendance/history
+     * Melihat riwayat absensi siswa dengan filter: ?start_date=&end_date=&limit=
+   - GET /api/attendance/:id
+     * Melihat detail satu data presensi.
+
+D. MODUL DASHBOARD & EXPORT ADMIN (/api/admin)
+   *Khusus role 'admin' (Header: Authorization: Bearer <token_admin>)*
+
+   - GET /api/admin/attendance/today
+     * Rekap seluruh siswa yang hadir pada hari ini.
+   - GET /api/admin/attendance/history
+     * Melihat seluruh data kehadiran semua siswa (mendukung filter & pagination).
+   - GET /api/admin/attendance/export
+     * Menghasilkan dan mendownload file Excel (.xlsx) rekapitulasi presensi resmi.
+   - GET /api/admin/students
+     * Melihat daftar seluruh siswa PKL yang terdaftar di sistem.
+   - POST /api/admin/students
+     * Pendaftaran akun siswa baru oleh admin.
+
+
+3. FITUR KEAMANAN, ANTI-CHEAT & GEOSPASIAL
+--------------------------------------------------------------------------------
+1. Perhitungan Jarak Kantor (Haversine Formula):
+   - Menghitung jarak presisi dalam meter antara HP siswa dan titik kantor Direktorat Bina Teknik SDA.
+   - Menolak presensi otomatis jika jarak > 100 meter (LOCATION_OUT_OF_RANGE).
+
+2. Validasi Akurasi GPS & Deteksi Fake GPS:
+   - Menolak presensi jika akurasi GPS > 50 meter (GPS_ACCURACY_TOO_LOW).
+   - Menolak akurasi GPS <= 0 meter (SUSPECTED_FAKE_GPS / anomali Fake GPS).
+
+3. Waktu Server Asli (Server Timestamp):
+   - Waktu dan tanggal presensi diambil murni dari server/database UTC & WIB.
+   - Siswa tidak bisa memanipulasi waktu dengan memundurkan/memajukan jam di HP.
+
+4. Anti-Duplikasi Presensi:
+   - Database constraint unik (user_id, attendance_date) memastikan 1 siswa hanya memiliki 1 baris kehadiran per hari.
+
+5. Penyimpanan Foto Aman (Supabase Storage):
+   - Foto selfie disimpan di bucket 'attendance-photos' dengan folder terstruktur:
+     attendance-photos/{user_id}/{tanggal}/{check_type}-{timestamp}.jpg
+   - Mendukung format Base64 langsung dari kamera web/HP tanpa butuh library form tambahan di frontend.
+
+6. Keamanan Server:
+   - Menyembunyikan identitas framework (disable x-powered-by).
+   - Proteksi XSS, Clickjacking (X-Frame-Options: DENY), No-Sniff.
+   - CORS dinamis mendukung domain frontend di production.
+   - File kredensial .env terlindungi penuh dari Git repository.
+
+
+4. FORMAT STANDAR RESPON API
+--------------------------------------------------------------------------------
+Respon Sukses:
+{
+  "success": true,
+  "message": "Pesan sukses",
+  "data": { ... }
+}
+
+Respon Error:
+{
+  "success": false,
+  "message": "Pesan penjelasan error",
+  "error": {
+    "code": "KODE_ERROR",
+    "details": ...
+  }
+}
+
+
+5. CARA MENJALANKAN SERVER & TEST
+--------------------------------------------------------------------------------
+- Mode Development : npm run dev
+- Mode Production  : npm start
+- Automated Test   : npm test
+================================================================================

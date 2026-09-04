@@ -91,6 +91,10 @@ OFFICE_LATITUDE=-6.899380
 OFFICE_LONGITUDE=107.618610
 OFFICE_RADIUS_METERS=100
 MAX_GPS_ACCURACY_METERS=50
+
+# Telegram Bot Logger (Opsional untuk Real-Time Admin Monitoring)
+TELEGRAM_BOT_TOKEN=your-bot-token-from-botfather
+TELEGRAM_CHAT_ID=your-admin-chat-id-or-group-id
 ```
 
 ### C. Eksekusi Skema Database
