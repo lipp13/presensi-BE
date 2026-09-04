@@ -1,5 +1,6 @@
 const { supabaseAdmin } = require("../config/supabase");
 const locationService = require("./location.service");
+const storageService = require("./storage.service");
 
 /**
  * Service untuk menangani logika bisnis pencatatan presensi siswa PKL
@@ -101,7 +102,15 @@ async function checkIn(userId, payload) {
     };
   }
 
-  // 3. Simpan data presensi check-in ke tabel attendance
+  // 3. Upload foto selfie jika dikirim dalam bentuk base64 / file
+  let finalPhotoPath = photo_path || "attendance-photos/default-placeholder.jpg";
+  const photoInput = payload.photo || payload.photo_base64;
+  if (photoInput) {
+    const uploadResult = await storageService.uploadAttendancePhoto(userId, photoInput, "check-in");
+    finalPhotoPath = uploadResult.url || uploadResult.path;
+  }
+
+  // 4. Simpan data presensi check-in ke tabel attendance
   const insertPayload = {
     user_id: userId,
     location_id: validation.location?.id || null,
@@ -111,7 +120,7 @@ async function checkIn(userId, payload) {
     check_in_longitude: parseFloat(longitude),
     check_in_accuracy: parseFloat(accuracy),
     check_in_distance: validation.distance,
-    check_in_photo_path: photo_path || "attendance-photos/default-placeholder.jpg",
+    check_in_photo_path: finalPhotoPath,
     status: "CHECKED_IN",
   };
 
@@ -197,14 +206,22 @@ async function checkOut(userId, payload) {
     };
   }
 
-  // 3. Update baris absensi hari ini dengan data check-out
+  // 3. Upload foto selfie pulang jika dikirim dalam bentuk base64 / file
+  let finalPhotoPath = photo_path || existing.check_in_photo_path;
+  const photoInput = payload.photo || payload.photo_base64;
+  if (photoInput) {
+    const uploadResult = await storageService.uploadAttendancePhoto(userId, photoInput, "check-out");
+    finalPhotoPath = uploadResult.url || uploadResult.path;
+  }
+
+  // 4. Update baris absensi hari ini dengan data check-out
   const updatePayload = {
     check_out_time: new Date().toISOString(),
     check_out_latitude: parseFloat(latitude),
     check_out_longitude: parseFloat(longitude),
     check_out_accuracy: parseFloat(accuracy),
     check_out_distance: validation.distance,
-    check_out_photo_path: photo_path || existing.check_in_photo_path,
+    check_out_photo_path: finalPhotoPath,
     status: "COMPLETED",
   };
 
