@@ -8,9 +8,9 @@
     "start": "node src/server.js",
     "test": "node test/api.test.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["presensi", "pkl", "smk-taruna-bhakti", "pupr", "express", "supabase"],
+  "author": "Alif Alfathar, Denis Ali Fadilah, Rega Syakib Ramadhan",
+  "license": "UNLICENSED",
   "type": "commonjs",
   "dependencies": {
     "@supabase/supabase-js": "^2.115.0",
