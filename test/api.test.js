@@ -62,6 +62,15 @@ async function runTests() {
     ).json();
     assert(emptyLoginRes.success === false && emptyLoginRes.error.code === "VALIDATION_ERROR", "POST /api/auth/login tanpa body ditolak VALIDATION_ERROR");
 
+    const nisnOnlyLoginRes = await (
+      await fetch(`${BASE_URL}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nisn: "242510046" }),
+      })
+    ).json();
+    assert(nisnOnlyLoginRes.success === false && nisnOnlyLoginRes.error.code === "VALIDATION_ERROR", "POST /api/auth/login hanya NISN tanpa password ditolak VALIDATION_ERROR");
+
     const emptyForgotRes = await (
       await fetch(`${BASE_URL}/api/auth/forgot-password`, {
         method: "POST",
