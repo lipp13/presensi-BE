@@ -125,6 +125,42 @@ async function updateUserPassword(userId, newPassword) {
 }
 
 /**
+ * Mengubah password dengan memverifikasi password lama terlebih dahulu
+ * @param {string} email 
+ * @param {string} userId 
+ * @param {string} oldPassword 
+ * @param {string} newPassword 
+ */
+async function changeUserPassword(email, userId, oldPassword, newPassword) {
+  if (!supabase || !supabaseAdmin) {
+    throw {
+      statusCode: 500,
+      code: "SUPABASE_NOT_CONFIGURED",
+      message: "Layanan Supabase belum dikonfigurasi.",
+    };
+  }
+
+  // 1. Verifikasi apakah password lama benar
+  if (oldPassword) {
+    const { error: verifyError } = await supabase.auth.signInWithPassword({
+      email,
+      password: oldPassword,
+    });
+
+    if (verifyError) {
+      throw {
+        statusCode: 400,
+        code: "INVALID_OLD_PASSWORD",
+        message: "Password lama yang Anda masukkan salah.",
+      };
+    }
+  }
+
+  // 2. Update password baru
+  return await updateUserPassword(userId, newPassword);
+}
+
+/**
  * Mengambil profil lengkap user berdasarkan ID
  * @param {string} userId 
  */
@@ -151,5 +187,6 @@ module.exports = {
   loginUser,
   sendPasswordResetEmail,
   updateUserPassword,
+  changeUserPassword,
   getUserProfileById,
 };

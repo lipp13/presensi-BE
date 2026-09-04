@@ -1,16 +1,10 @@
 require("dotenv").config();
 const { supabaseAdmin } = require("../config/supabase");
 
-/**
- * Script untuk membuat akun Admin pertama kali
- * Penggunaan:
- *   node src/scripts/create-admin.js <email> <password> "<nama_lengkap>"
- * Contoh:
- *   node src/scripts/create-admin.js admin@tarunabhakti.sch.id Admin123! "Administrator SDA"
- */
+
 async function createAdmin() {
-  const email = process.argv[2] || "admin@tarunabhakti.sch.id";
-  const password = process.argv[3] || "Admin123!";
+  const email = process.argv[2] || "gogod@attend.sch.id";
+  const password = process.argv[3] || "gogod123";
   const fullName = process.argv[4] || "Administrator SDA";
 
   if (!supabaseAdmin) {

@@ -109,9 +109,44 @@ async function getMe(req, res, next) {
   }
 }
 
+/**
+ * POST /api/auth/change-password
+ * Header: Authorization: Bearer <token>
+ * Body: { old_password, new_password }
+ */
+async function changePassword(req, res, next) {
+  try {
+    const { old_password, new_password } = req.body;
+
+    if (!new_password || new_password.length < 6) {
+      return errorResponse(
+        res,
+        "Password baru wajib diisi dan minimal 6 karakter.",
+        "VALIDATION_ERROR",
+        400
+      );
+    }
+
+    const result = await authService.changeUserPassword(
+      req.user.email,
+      req.user.id,
+      old_password,
+      new_password
+    );
+
+    return successResponse(res, result.message, null, 200);
+  } catch (error) {
+    if (error.code && error.statusCode) {
+      return errorResponse(res, error.message, error.code, error.statusCode, error.details);
+    }
+    next(error);
+  }
+}
+
 module.exports = {
   login,
   forgotPassword,
   resetPassword,
+  changePassword,
   getMe,
 };

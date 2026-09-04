@@ -127,8 +127,9 @@ Format Response Seragam:
 | Method | Endpoint | Akses | Keterangan |
 |---|---|---|---|
 | `POST` | `/api/auth/login` | Publik | Body: `{ "email": "...", "password": "..." }` |
-| `POST` | `/api/auth/forgot-password` | Publik | Body: `{ "email": "..." }` |
-| `POST` | `/api/auth/reset-password` | User/Admin | Header: `Bearer <token>`, Body: `{ "password": "..." }` |
+| `POST` | `/api/auth/forgot-password` | Publik | Kirim tautan reset ke email. Body: `{ "email": "..." }` |
+| `POST` | `/api/auth/reset-password` | User/Admin | Reset password via token email. Header: `Bearer <token>`, Body: `{ "password": "..." }` |
+| `POST` | `/api/auth/change-password` | User/Admin | Ganti password saat login. Header: `Bearer <token>`, Body: `{ "old_password": "...", "new_password": "..." }` |
 | `GET` | `/api/auth/me` | User/Admin | Header: `Bearer <token>` (Data profil pengguna) |
 
 ### B. Presensi Siswa (`/api/attendance`)
