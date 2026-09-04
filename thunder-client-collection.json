@@ -1,0 +1,192 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "Presensi PKL API",
+  "dateExported": "2026-09-04",
+  "version": "1.1",
+  "folders": [
+    {
+      "_id": "f_health",
+      "name": "0. Health & System",
+      "containerId": "",
+      "created": "2026-09-04"
+    },
+    {
+      "_id": "f_auth",
+      "name": "1. Authentication",
+      "containerId": "",
+      "created": "2026-09-04"
+    },
+    {
+      "_id": "f_attendance",
+      "name": "2. Attendance",
+      "containerId": "",
+      "created": "2026-09-04"
+    },
+    {
+      "_id": "f_admin",
+      "name": "3. Admin Management",
+      "containerId": "",
+      "created": "2026-09-04"
+    }
+  ],
+  "requests": [
+    {
+      "_id": "req_root",
+      "colId": "f_health",
+      "containerId": "f_health",
+      "name": "GET / (Root API Info)",
+      "url": "{{BASE_URL}}/",
+      "method": "GET"
+    },
+    {
+      "_id": "req_health",
+      "colId": "f_health",
+      "containerId": "f_health",
+      "name": "GET /api/health (System Status)",
+      "url": "{{BASE_URL}}/api/health",
+      "method": "GET"
+    },
+    {
+      "_id": "req_health_tele",
+      "colId": "f_health",
+      "containerId": "f_health",
+      "name": "GET /api/health/telegram (Test Bot)",
+      "url": "{{BASE_URL}}/api/health/telegram",
+      "method": "GET"
+    },
+    {
+      "_id": "req_login_nisn",
+      "colId": "f_auth",
+      "containerId": "f_auth",
+      "name": "POST /api/auth/login (Via NISN)",
+      "url": "{{BASE_URL}}/api/auth/login",
+      "method": "POST",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"identifier\": \"242510046\",\n  \"password\": \"siswa123\"\n}"
+      }
+    },
+    {
+      "_id": "req_login_email",
+      "colId": "f_auth",
+      "containerId": "f_auth",
+      "name": "POST /api/auth/login (Via Email)",
+      "url": "{{BASE_URL}}/api/auth/login",
+      "method": "POST",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"admin@balaisda.go.id\",\n  \"password\": \"admin123\"\n}"
+      }
+    },
+    {
+      "_id": "req_forgot_pw",
+      "colId": "f_auth",
+      "containerId": "f_auth",
+      "name": "POST /api/auth/forgot-password",
+      "url": "{{BASE_URL}}/api/auth/forgot-password",
+      "method": "POST",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"siswa@smktarunabhakti.sch.id\"\n}"
+      }
+    },
+    {
+      "_id": "req_get_me",
+      "colId": "f_auth",
+      "containerId": "f_auth",
+      "name": "GET /api/auth/me",
+      "url": "{{BASE_URL}}/api/auth/me",
+      "method": "GET",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{TOKEN}}" }]
+    },
+    {
+      "_id": "req_checkin",
+      "colId": "f_attendance",
+      "containerId": "f_attendance",
+      "name": "POST /api/attendance/check-in",
+      "url": "{{BASE_URL}}/api/attendance/check-in",
+      "method": "POST",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{TOKEN}}" }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"latitude\": -6.899380,\n  \"longitude\": 107.618610,\n  \"accuracy\": 15,\n  \"photo\": \"data:image/jpeg;base64,...\"\n}"
+      }
+    },
+    {
+      "_id": "req_checkout",
+      "colId": "f_attendance",
+      "containerId": "f_attendance",
+      "name": "POST /api/attendance/check-out",
+      "url": "{{BASE_URL}}/api/attendance/check-out",
+      "method": "POST",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{TOKEN}}" }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"latitude\": -6.899380,\n  \"longitude\": 107.618610,\n  \"accuracy\": 15,\n  \"photo\": \"data:image/jpeg;base64,...\"\n}"
+      }
+    },
+    {
+      "_id": "req_att_today",
+      "colId": "f_attendance",
+      "containerId": "f_attendance",
+      "name": "GET /api/attendance/today",
+      "url": "{{BASE_URL}}/api/attendance/today",
+      "method": "GET",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{TOKEN}}" }]
+    },
+    {
+      "_id": "req_att_history",
+      "colId": "f_attendance",
+      "containerId": "f_attendance",
+      "name": "GET /api/attendance/history",
+      "url": "{{BASE_URL}}/api/attendance/history?limit=10",
+      "method": "GET",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{TOKEN}}" }]
+    },
+    {
+      "_id": "req_admin_today",
+      "colId": "f_admin",
+      "containerId": "f_admin",
+      "name": "GET /api/admin/attendance/today",
+      "url": "{{BASE_URL}}/api/admin/attendance/today",
+      "method": "GET",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ADMIN_TOKEN}}" }]
+    },
+    {
+      "_id": "req_admin_history",
+      "colId": "f_admin",
+      "containerId": "f_admin",
+      "name": "GET /api/admin/attendance/history",
+      "url": "{{BASE_URL}}/api/admin/attendance/history?page=1&limit=20",
+      "method": "GET",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ADMIN_TOKEN}}" }]
+    },
+    {
+      "_id": "req_admin_export",
+      "colId": "f_admin",
+      "containerId": "f_admin",
+      "name": "GET /api/admin/attendance/export (Download Excel)",
+      "url": "{{BASE_URL}}/api/admin/attendance/export",
+      "method": "GET",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ADMIN_TOKEN}}" }]
+    },
+    {
+      "_id": "req_admin_students",
+      "colId": "f_admin",
+      "containerId": "f_admin",
+      "name": "GET /api/admin/students",
+      "url": "{{BASE_URL}}/api/admin/students",
+      "method": "GET",
+      "headers": [{ "name": "Authorization", "value": "Bearer {{ADMIN_TOKEN}}" }]
+    }
+  ]
+}
